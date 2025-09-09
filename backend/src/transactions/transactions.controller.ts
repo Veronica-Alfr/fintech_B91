@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -18,11 +18,9 @@ export class TransactionsController {
         return this.transactionService.getTransaction(parseInt(id));
     }
 
-    @Get(':date, :type')
-    async findMany(@Param('date') params: { date: string, type: ITransactionType }) {
-        console.log("param id =>", params.date);
-        console.log("get type defined =>", params.type);
-        return this.transactionService.getManyTransactions(params.date, params.type);
+    @Get()
+    async findMany(@Query('date') date: string, @Query('date') type: ITransactionType) {
+        return this.transactionService.getManyTransactions(date, type);
     }
 
     @Put(':id')
